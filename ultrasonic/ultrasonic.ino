@@ -7,6 +7,8 @@
 #include "robo_driver.h"
 #include "rgb_sense.h"
 
+#define DET_RADIUS 50 //Radious in which detected object will be consider as bot and will be attacked
+
 // int bot_speed;
 
 void setup () {
@@ -24,15 +26,6 @@ void setup () {
 
 
 void loop () {
-  // double* distances = HCSR04.measureDistanceCm();
-  
-  // for (int i = 0; i < echoCount; i++) {
-  //   if (i > 0) Serial.print(" | ");
-  //   Serial.print(i + 1);
-  //   Serial.print(": ");
-  //   Serial.print(distances[i]);
-  //   Serial.print(" cm");
-  // }
 
   int rgb_det = update_rgb();
   if(rgb_det) //Detected edge of arena
@@ -42,21 +35,18 @@ void loop () {
 
     edge_detected_move(rgb_det);
   }
-  robo_speed_update(15, 0);
-  
+ 
 
   double* distances = HCSR04.measureDistanceCm();
   // Serial.println(distances[0]);
-  if(distances[0]<50)
+  if(distances[0]<DET_RADIUS)
   {
    //Bot detected
     robo_stop();
-    robo_speed_update(10, 0); 
+    robo_speed_update(40, 0); 
   }
-  // black trigger
   else
-  {
-    robo_speed_update(0, 20);
-  }
-
+  {   // black trigger
+    hard_rotate(30);
+  } 
 }
