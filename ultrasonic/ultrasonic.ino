@@ -42,60 +42,15 @@ FablabL298Driver motor_R2(ENA_R2, IN1_R2, IN2_R2);
 int bot_speed;
 
 Servo myservo;
-/*
-int error=0;
-void left_wheel(int value)
-{
-  int left_speed = bot_speed - error;
 
-  if(left_speed<0)
-  {
-    motor_L1.backward();
-    motor_L2.backward();
-    left_speed = -left_speed;
-  }
-  else
-  {
-    motor_L1.forward();
-    motor_L2.forward()
-  }
-
-uint8_t speed = constrain(left_speed, 0, 255);
-
-  goSpeed(speed);
-
-}
-void right_wheel(int value)
-{
-  int left_speed = bot_speed - error;
-
-  if(left_speed<0)
-  {
-    motor_R1.backward();
-    motor_R2.backward();
-    left_speed = -left_speed;
-  }
-  else
-  {
-    motor_R1.forward();
-    motor_R2.forward()
-  }
-
-uint8_t speed = constrain(left_speed, 0, 255);
-
-  goSpeed(speed);
-
-}
-*/
-#define TIMER_INTERVAL_MS        50L
 
 void setup () {
   Serial.begin(115200);
   HCSR04.begin(triggerPin, echoPins, echoCount);
   // Initialize the motor
-  motor_L1.begin();
-  motor_L1.setMin(255);
-  motor_L1.setMax(255);
+  // motor_L1.begin();
+  // motor_L1.setMin(255);
+  // motor_L1.setMax(255);
 
  //Time: 1 Sec : 1,000,000
   //  Timer1.initialize(150000);// blinkLED to run every 0.15 Sec.
@@ -171,14 +126,14 @@ void loop () {
   // delay(100);
 
     // Move the motor forward at 50% speed
-  motor_L1.forward();
-  motor_L1.goPercentage(50);
-  // delay(100);
 
-  // Stop the motor
-  motor_L1.stop();
-
-
-  Servo_Update();
+  hard_rotate(50);
+  Serial.println("Right turn");
+  delay(3000);
+  Serial.println("Left turn");
+  delay(3000);
+  robo_speed_update(0, 0);
+  Serial.println("Motor stop");
+  delay(3000);
 
 }

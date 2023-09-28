@@ -33,13 +33,13 @@ uint8_t speed = constrain(left_speed, 0, 255);
 }
 void right_wheel(int bot_speed,int error)
 {
-  int left_speed = bot_speed - error;
+  int right_speed = bot_speed + error;
 
-  if(left_speed<0)
+  if(right_speed<0)
   {
     motor_R1.backward();
     motor_R2.backward();
-    left_speed = -left_speed;
+    right_speed = -right_speed;
   }
   else
   {
@@ -47,9 +47,23 @@ void right_wheel(int bot_speed,int error)
     motor_R2.forward();
   }
 
-uint8_t speed = constrain(left_speed, 0, 255);
+uint8_t speed = constrain(right_speed, 0, 255);
 
   motor_R1.goSpeed(speed);
   motor_R2.goSpeed(speed);
+
+}
+
+void robo_speed_update(int bot_speed, int error)
+{
+  left_wheel(bot_speed, error);
+  right_wheel(bot_speed, error);
+}
+
+hard_rotate(int bot_speed) //-Ve value will turn left
+{
+
+  left_wheel(-bot_speed,0);
+  right_wheel(bot_speed,0);
 
 }
