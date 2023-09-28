@@ -7,44 +7,7 @@
 #include "robo_driver.h"
 #include "rgb_sense.h"
 
-//LED Status PIN
-//const uint8_t LED_PIN = 13;
-// //Servo Pin 
-// const uint8_t SERVO_PIN = 12;
-// // Motor pins
-// const uint8_t ENA_L1 = 5;
-// const uint8_t IN1_L1 = 6;
-// const uint8_t IN2_L1 = 7;
-
-// const uint8_t ENA_L2 = 5;
-// const uint8_t IN1_L2 = 6;
-// const uint8_t IN2_L2 = 7;
-
-// const uint8_t ENA_R1 = 5;
-// const uint8_t IN1_R1 = 6;
-// const uint8_t IN2_R1 = 7;
-
-// const uint8_t ENA_R2 = 5;
-// const uint8_t IN1_R2 = 6;
-// const uint8_t IN2_R2S = 7;
-
-// //Ultra sonic pins
-// byte triggerPin = 8;//21;
-// byte echoCount = 2;
-// byte* echoPins = new byte[echoCount] { 9,10 };//, 13
-
-// Create a new instance of the Motor class
-
-// FablabL298Driver motor_L1(ENA_L1, IN1_L1, IN2_L1);
-// FablabL298Driver motor_L2(ENA_L2, IN1_L2, IN2_L2);
-// FablabL298Driver motor_R1(ENA_R1, IN1_R1, IN2_R1);
-// FablabL298Driver motor_R2(ENA_R2, IN1_R2, IN2_R2);
-
-
-int bot_speed;
-
-Servo myservo;
-
+// int bot_speed;
 
 void setup () {
   Serial.begin(115200);
@@ -59,57 +22,7 @@ void setup () {
 //  myservo.attach(SERVO_PIN);  // attaches the servo on pin 9 to the servo object
 }
 
-int ledState = LOW;
-volatile unsigned long servo_angle = 90; // use volatile for shared variables
-volatile unsigned int dir=1; // use volatile for shared variables
-volatile float min_dist=500; // use volatile for shared variables
-volatile int target_angle;
 
-void Servo_Update(void)
-{ if (ledState == LOW)
-  {
-    ledState = HIGH;
-   // blinkCount = blinkCount + 1; // increase when LED turns on
-  }
-  else {
-    ledState = LOW;
-  }
-  digitalWrite(LED_PIN, ledState);
-
-  myservo.write(servo_angle);
-  if(dir)
-  {
-    servo_angle++;
-  }else
-  {
-    servo_angle--;
-  }
-  if(servo_angle>150)
-  {
-    dir = 0;
-    min_dist=500;
-    
-    Serial.print(target_angle);
-    Serial.print(" Degree");
-    Serial.println("");
-  }
-  else if(servo_angle < 30)
-  {
-    dir = 1;
-    min_dist=500;
-  }
-
-  double* distance1 = HCSR04.measureDistanceCm();
-  if(distance1[0]<100)
-  {
-    if(distance1[0]<min_dist)
-    {   
-      min_dist = distance1[0];
-      target_angle = servo_angle;
-    }
-  }
-
-}
 void loop () {
   // double* distances = HCSR04.measureDistanceCm();
   
@@ -120,49 +33,6 @@ void loop () {
   //   Serial.print(distances[i]);
   //   Serial.print(" cm");
   // }
-  
-  // Serial.println("");
-  // delay(100);
-
-    // Move the motor forward at 50% speed
-    // for (int i=0; i<255; i++)
-    // {
-    //   motor_R2.forward();
-
-    //   Serial.println(i);
-    //   motor_R2.goSpeed(i);
-    //     // robo_speed_update(i, 0);
-    //   delay(100);
-    // }
-  
-
-  // forward(5);
-  // robo_stop();
-  // delay(1000);
-  // backward(5);
-  // robo_stop();
-  
-
-
-
-
-
-  // robo_speed_update(50, 0);
-  // delay(2000);
-  // robo_stop();
-  // delay(1000);
-  // robo_speed_update(-50, 0);
-  // delay(2000);
-
-
-
-  // robo_speed_update(-100, 0);  
-  // // hard_rotate(-100);
-  // Serial.println("Left turn");
-  // delay(3000);
-  // robo_speed_update(0, 0);
-  // Serial.println("Motor stop");
-  // delay(3000);
 
   int rgb_det = update_rgb();
   if(rgb_det) //Detected edge of arena
@@ -173,6 +43,20 @@ void loop () {
     edge_detected_move(rgb_det);
   }
   robo_speed_update(15, 0);
-//  Serial.println(update_rgb(),BIN);
-//  delay(50);
+  
+
+  double* distances = HCSR04.measureDistanceCm();
+  // Serial.println(distances[0]);
+  if(distances[0]<50)
+  {
+   //Bot detected
+    robo_stop();
+    robo_speed_update(10, 0); 
+  }
+  // black trigger
+  else
+  {
+    robo_speed_update(0, 20);
+  }
+
 }
