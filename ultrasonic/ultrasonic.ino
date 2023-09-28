@@ -2,36 +2,38 @@
 #include "FablabL298Driver.h"
 // #include <TimerOne.h>
 #include <Servo.h>
+#include "pin_map.h"
+#include "robo_driver.h"
 
 //LED Status PIN
-const uint8_t LED_PIN = 13;
-//Servo Pin 
-const uint8_t SERVO_PIN = 12;
-// Motor pins
-const uint8_t ENA_L1 = 5;
-const uint8_t IN1_L1 = 6;
-const uint8_t IN2_L1 = 7;
+//const uint8_t LED_PIN = 13;
+// //Servo Pin 
+// const uint8_t SERVO_PIN = 12;
+// // Motor pins
+// const uint8_t ENA_L1 = 5;
+// const uint8_t IN1_L1 = 6;
+// const uint8_t IN2_L1 = 7;
 
-const uint8_t ENA_L2 = 5;
-const uint8_t IN1_L2 = 6;
-const uint8_t IN2_L2 = 7;
+// const uint8_t ENA_L2 = 5;
+// const uint8_t IN1_L2 = 6;
+// const uint8_t IN2_L2 = 7;
 
-const uint8_t ENA_R1 = 5;
-const uint8_t IN1_R1 = 6;
-const uint8_t IN2_R1 = 7;
+// const uint8_t ENA_R1 = 5;
+// const uint8_t IN1_R1 = 6;
+// const uint8_t IN2_R1 = 7;
 
-const uint8_t ENA_R2 = 5;
-const uint8_t IN1_R2 = 6;
-const uint8_t IN2_R2S = 7;
+// const uint8_t ENA_R2 = 5;
+// const uint8_t IN1_R2 = 6;
+// const uint8_t IN2_R2S = 7;
 
-//Ultra sonic pins
-byte triggerPin = 8;//21;
-byte echoCount = 2;
-byte* echoPins = new byte[echoCount] { 9,10 };//, 13
+// //Ultra sonic pins
+// byte triggerPin = 8;//21;
+// byte echoCount = 2;
+// byte* echoPins = new byte[echoCount] { 9,10 };//, 13
 
 // Create a new instance of the Motor class
-FablabL298Driver motor_L1(ENA_L1, IN1_L1, IN2_L1);
 /*
+FablabL298Driver motor_L1(ENA_L1, IN1_L1, IN2_L1);
 FablabL298Driver motor_L2(ENA_L2, IN1_L2, IN2_L2);
 FablabL298Driver motor_R1(ENA_R1, IN1_R1, IN2_R1);
 FablabL298Driver motor_R2(ENA_R2, IN1_R2, IN2_R2);
