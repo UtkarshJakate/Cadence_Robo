@@ -4,21 +4,21 @@
 #include <Servo.h>
 
 // Motor pins
-const uint8_t ENA_L1 = 5;
-const uint8_t IN1_L1 = 6;
-const uint8_t IN2_L1 = 7;
+const uint8_t ENA_L1 = A12;
+const uint8_t IN1_L1 = 46;
+const uint8_t IN2_L1 = 47;
 
-const uint8_t ENA_L2 = 5;
-const uint8_t IN1_L2 = 6;
-const uint8_t IN2_L2 = 7;
+const uint8_t ENA_L2 = A13;
+const uint8_t IN1_L2 = 48;
+const uint8_t IN2_L2 = 49;
 
-const uint8_t ENA_R1 = 5;
-const uint8_t IN1_R1 = 6;
-const uint8_t IN2_R1 = 7;
+const uint8_t ENA_R1 = A14;
+const uint8_t IN1_R1 = 50;
+const uint8_t IN2_R1 = 51;
 
-const uint8_t ENA_R2 = 5;
-const uint8_t IN1_R2 = 6;
-const uint8_t IN2_R2S = 7;
+const uint8_t ENA_R2 = A15;
+const uint8_t IN1_R2 = 52;
+const uint8_t IN2_R2S = 53;
 
 //Ultra Sonic pins
 byte triggerPin = 22;
@@ -37,5 +37,5 @@ void setup () {
 
 void loop () {
   double* distance1 = HCSR04.measureDistanceCm();
-  Serial.print(distance1[0]);
+  
 }
