@@ -2,8 +2,10 @@
 #include "FablabL298Driver.h"
 // #include <TimerOne.h>
 #include <Servo.h>
+#include "bot_strategy.h"
 #include "pin_map.h"
 #include "robo_driver.h"
+#include "rgb_sense.h"
 
 //LED Status PIN
 //const uint8_t LED_PIN = 13;
@@ -32,12 +34,12 @@
 // byte* echoPins = new byte[echoCount] { 9,10 };//, 13
 
 // Create a new instance of the Motor class
-/*
-FablabL298Driver motor_L1(ENA_L1, IN1_L1, IN2_L1);
-FablabL298Driver motor_L2(ENA_L2, IN1_L2, IN2_L2);
-FablabL298Driver motor_R1(ENA_R1, IN1_R1, IN2_R1);
-FablabL298Driver motor_R2(ENA_R2, IN1_R2, IN2_R2);
-*/
+
+// FablabL298Driver motor_L1(ENA_L1, IN1_L1, IN2_L1);
+// FablabL298Driver motor_L2(ENA_L2, IN1_L2, IN2_L2);
+// FablabL298Driver motor_R1(ENA_R1, IN1_R1, IN2_R1);
+// FablabL298Driver motor_R2(ENA_R2, IN1_R2, IN2_R2);
+
 
 int bot_speed;
 
@@ -48,16 +50,13 @@ void setup () {
   Serial.begin(115200);
   HCSR04.begin(triggerPin, echoPins, echoCount);
   // Initialize the motor
-  // motor_L1.begin();
-  // motor_L1.setMin(255);
-  // motor_L1.setMax(255);
-
+  robo_begin();
  //Time: 1 Sec : 1,000,000
   //  Timer1.initialize(150000);// blinkLED to run every 0.15 Sec.
   // Timer1.attachInterrupt(Servo_Update);
 
-  pinMode(LED_PIN, OUTPUT);
- myservo.attach(SERVO_PIN);  // attaches the servo on pin 9 to the servo object
+//   pinMode(LED_PIN, OUTPUT);
+//  myservo.attach(SERVO_PIN);  // attaches the servo on pin 9 to the servo object
 }
 
 int ledState = LOW;
@@ -126,14 +125,54 @@ void loop () {
   // delay(100);
 
     // Move the motor forward at 50% speed
+    // for (int i=0; i<255; i++)
+    // {
+    //   motor_R2.forward();
 
-  hard_rotate(50);
-  Serial.println("Right turn");
-  delay(3000);
-  Serial.println("Left turn");
-  delay(3000);
-  robo_speed_update(0, 0);
-  Serial.println("Motor stop");
-  delay(3000);
+    //   Serial.println(i);
+    //   motor_R2.goSpeed(i);
+    //     // robo_speed_update(i, 0);
+    //   delay(100);
+    // }
+  
 
+  // forward(5);
+  // robo_stop();
+  // delay(1000);
+  // backward(5);
+  // robo_stop();
+  
+
+
+
+
+
+  // robo_speed_update(50, 0);
+  // delay(2000);
+  // robo_stop();
+  // delay(1000);
+  // robo_speed_update(-50, 0);
+  // delay(2000);
+
+
+
+  // robo_speed_update(-100, 0);  
+  // // hard_rotate(-100);
+  // Serial.println("Left turn");
+  // delay(3000);
+  // robo_speed_update(0, 0);
+  // Serial.println("Motor stop");
+  // delay(3000);
+
+  int rgb_det = update_rgb();
+  if(rgb_det) //Detected edge of arena
+  {
+    // Serial.println("Edge detected");
+    // Serial.println(rgb_det);
+
+    edge_detected_move(rgb_det);
+  }
+  robo_speed_update(15, 0);
+//  Serial.println(update_rgb(),BIN);
+//  delay(50);
 }
