@@ -41,6 +41,10 @@ const uint8_t IN2_R2 = 10;//46;
 #define ultra_b 44
 byte triggerPin = 52;
 
+#define ultra_idx_f 0
+#define ultra_idx_b 1
+#define ultra_idx_l 2
+#define ultra_idx_r 3
 
 byte echoCount = 4;
 byte* echoPins = new byte[echoCount]{  ultra_f, ultra_b, ultra_l, ultra_r };//  ultra_l, ultra_r, ultra_f, ultra_b{ 9,10, 11 };//, 

@@ -8,7 +8,7 @@
 #include "rgb_sense.h"
 #include "rgb_from_nano.h"
 
-#define DET_RADIUS 50 //Radious in which detected object will be consider as bot and will be attacked
+// #define DET_RADIUS 50 //Radious in which detected object will be consider as bot and will be attacked
 
 
 
@@ -64,20 +64,25 @@ if(read_rgb_intr())
   // Serial.print(",Ultra4:");
   // Serial.println(distances[3]);
   // delay(1000);
-  if(distances[0]<DET_RADIUS)
+
+  // if(distances[ultra_idx_b]<DEF_RADIUS)
+  if(distances[ultra_idx_b]<DEF_DET_RADIUS)
+  {
+    update_const_rot_dir(TURN_RIGHT);
+    hard_rotate(99 * read_const_rot_dir());
+    delay(100);//
+  }
+  else
+  if(distances[ultra_idx_f]<DET_RADIUS)
   {
    //Bot detected
     robo_stop();
-    robo_speed_update(75, 0); 
+   //attack 
+    robo_speed_update(CONST_FWD_SPEED, 0); 
   }
   else
-  {   // black trigger
-    hard_rotate(30);
+  {   // Track other robot
+    hard_rotate(CONST_ROT_SPEED * read_const_rot_dir());
   } 
-
-
-  // fn_time= millis() - fn_time;
-  // Serial.print("Total:");
-  // Serial.print(fn_time);
 
 }

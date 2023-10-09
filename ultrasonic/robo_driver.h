@@ -7,9 +7,15 @@
 
 #define bot_speed_at_75 (1/1000)  //cm per milisec
 
+
 #define motor_perc1 50
 #define bot_speed_at_perc1 27 //(2000/73)  //inverse of cm per milisec
 #define bot_rot_speed_at_perc1 (9440/(4*360))  //inverse of degrees per milisec
+
+#define motor_perc2 50
+#define bot_speed_at_perc2 27 //(2000/73)  //inverse of cm per milisec
+#define bot_rot_speed_at_perc2 (9440/(4*360))  //inverse of degrees per milisec
+
 
 // Create a new instance of the Motor class
 FablabL298Driver motor_L1(ENA_L1, IN1_L1, IN2_L1);
@@ -26,7 +32,7 @@ void rotate_left_soft(int);
 
 void left_wheel(int bot_speed,int error)
 {
-  int left_speed = bot_speed - error;
+  int left_speed = bot_speed + error;
 
   if(left_speed<0)
   {
@@ -48,7 +54,7 @@ uint8_t speed = (uint8_t) constrain(left_speed, 0, 100);
 }
 void right_wheel(int bot_speed,int error)
 {
-  int right_speed = bot_speed + error;
+  int right_speed = bot_speed - error;
 
   if(right_speed<0)
   {
@@ -75,7 +81,7 @@ void robo_speed_update(int bot_speed, int error)
   right_wheel(bot_speed, error);
 }
 
-hard_rotate(int bot_speed) //-Ve value will turn left
+hard_rotate(int bot_speed) //+Ve value will turn right
 {
   left_wheel(0,bot_speed);
   right_wheel(0,bot_speed);
@@ -107,39 +113,41 @@ void robo_begin(void)
 }
 
 
-void forward(int dist)
+void forward_cm(int dist,int speed)
 {
-  robo_speed_update( motor_perc1, 0);
-  delay(dist*bot_speed_at_perc1);
+  robo_speed_update( speed, 0);
+  delay( (int) (( (float) dist*bot_speed_at_perc1*speed)/(float)motor_perc1) );
   robo_stop();
 }
-void backward(int dist)
+void backward_cm(int dist,int speed)
 {
-  robo_speed_update( -motor_perc1, 0);
-  delay(dist*bot_speed_at_perc1);
-  robo_stop();
-}
-
-void rotate_right(int angle)
-{
-  robo_speed_update( 0, motor_perc1);
-    delay(angle*bot_rot_speed_at_perc1);
+  robo_speed_update( -speed, 0);
+  // delay(dist*bot_speed_at_perc1*speed/motor_perc1);
+  delay( (int) (( (float) dist*bot_speed_at_perc1*speed)/(float)motor_perc1) );
   robo_stop();
 }
 
-void rotate_left(int angle)
+void rotate_right_degree(int angle, int speed)
 {
-  robo_speed_update( 0, -motor_perc1);
-    delay(angle*bot_rot_speed_at_perc1);
+  robo_speed_update( 0, speed);//motor_perc1);
+    delay(  (int) (( (float) angle*bot_rot_speed_at_perc1*speed)/((float)motor_perc1) )  );
   robo_stop();
 }
-void rotate_right_soft(int angle)
+
+void rotate_left_degree(int angle, int speed)
 {
-  rotate_right(angle);
+  robo_speed_update( 0, -speed);//motor_perc1);
+    // delay(angle*bot_rot_speed_at_perc1*speed/motor_perc1);
+    delay(  (int) (( (float) angle*bot_rot_speed_at_perc1*speed)/((float)motor_perc1) )  );
+  robo_stop();
 }
-void rotate_left_soft(int angle)
+void rotate_right_soft_degree(int angle,int speed)
 {
-  rotate_left(angle);
+  rotate_right_degree(angle,speed);
+}
+void rotate_left_soft_degree(int angle,int speed)
+{
+  rotate_left_degree(angle,speed);
 }
 
 #endif

@@ -12,6 +12,7 @@ int read_rgb_intr()
 }
 void set_rgb_intr()
 {
+  // robo_stop();
   rgb_from_nano_local_intr_flag = 1;
 }
 void clear_rgb_intr()
@@ -24,7 +25,6 @@ int read_rgb_state()
   rgb_state =  (digitalRead(RGB_D2) << 2) | (digitalRead(RGB_D1) << 1) | digitalRead(RGB_D0);
   return rgb_state;
 }
-
 void rgb_from_nano_begin()
 {
   pinMode(RGB_INTR,INPUT_PULLUP);
