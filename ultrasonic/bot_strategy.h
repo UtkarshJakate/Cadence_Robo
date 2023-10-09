@@ -4,7 +4,7 @@
 #include "rgb_sense.h"
 #include "robo_driver.h"
 
-#define DET_RADIUS 50 //Radious in which detected object will be consider as bot and will be attacked
+#define DET_RADIUS 30 //Radious in which detected object will be consider as bot and will be attacked
 #define DEF_DET_RADIUS 10 //Radious in which detected object will be consider as bot and will be attacked
 
 #define CONST_ROT_SPEED 30 //

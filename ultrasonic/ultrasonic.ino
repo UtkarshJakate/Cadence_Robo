@@ -65,7 +65,6 @@ if(read_rgb_intr())
   // Serial.println(distances[3]);
   // delay(1000);
 
-  // if(distances[ultra_idx_b]<DEF_RADIUS)
   if(distances[ultra_idx_b]<DEF_DET_RADIUS)
   {
     update_const_rot_dir(TURN_RIGHT);
@@ -79,6 +78,24 @@ if(read_rgb_intr())
     robo_stop();
    //attack 
     robo_speed_update(CONST_FWD_SPEED, 0); 
+  }
+  else
+  if(distances[ultra_idx_l]<DET_RADIUS)
+  {
+   //Bot detected
+    robo_stop();
+   //Change rotation
+    update_const_rot_dir(TURN_LEFT); 
+    hard_rotate( (CONST_ROT_SPEED+25)* read_const_rot_dir());
+  }
+  else
+  if(distances[ultra_idx_r]<DET_RADIUS)
+  {
+   //Bot detected
+    robo_stop();
+   //Change rotation
+    update_const_rot_dir(TURN_RIGHT); 
+    hard_rotate( (CONST_ROT_SPEED+25)* read_const_rot_dir());
   }
   else
   {   // Track other robot
