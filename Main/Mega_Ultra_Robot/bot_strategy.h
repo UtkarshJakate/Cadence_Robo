@@ -5,17 +5,18 @@
 #include "robo_driver.h"
 
 #define DET_RADIUS 50     //Radius in which detected object will be consider as bot and will be attacked
-#define DEF_DET_RADIUS 10 //Radius in which detected object will be consider as bot and will be attacked
+#define DET_RADIUS_LR 20     //
+#define DEF_DET_RADIUS 10 //
 
 #define CONST_ROT_SPEED 30 
 #define CONST_FWD_SPEED 99 
-#define CONST_ROT_SPEED_SIDE_ULTRA 90
+#define CONST_ROT_SPEED_FAST 90
 
 #define EDGE_DET_SPEED_FOR_MOTION 50
 #define EDGE_DET_SPEED_FOR_ROT 50
 
-#define TURN_LEFT -1
-#define TURN_RIGHT 1
+#define TURN_LEFT  1
+#define TURN_RIGHT -1
 
 int bot_strategy_curent_rotation_dir = 1; //1: Right and -1 is Left
 

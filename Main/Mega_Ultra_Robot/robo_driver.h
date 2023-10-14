@@ -96,19 +96,19 @@ hard_rotate(int bot_speed) //+Ve value will turn right
 void robo_begin(void) 
 {
   motor_L1.begin();
-  motor_L1.setMin(80);
+  motor_L1.setMin(53);
   motor_L1.setMax(255);
 
   motor_L2.begin();
-  motor_L2.setMin(70);
+  motor_L2.setMin(53);
   motor_L2.setMax(255);
 
   motor_R1.begin();
-  motor_R1.setMin(45);
+  motor_R1.setMin(50);
   motor_R1.setMax(255);
 
   motor_R2.begin();
-  motor_R2.setMin(50);
+  motor_R2.setMin(65);
   motor_R2.setMax(255);
 }
 

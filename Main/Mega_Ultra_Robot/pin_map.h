@@ -38,11 +38,14 @@ const uint8_t IN1_R2 = 9;//47;
 const uint8_t IN2_R2 = 10;//46;
 
 //Ultra sonic pins
-#define ultra_l 46
-#define ultra_r 42
+#define ultra_l 42
+#define ultra_r 46
 #define ultra_f 48
 #define ultra_b 44
+
 byte triggerPin = 52;
+byte rotate_dir;
+byte fast_rotate = 1;
 
 #define ultra_idx_f 0
 #define ultra_idx_b 1

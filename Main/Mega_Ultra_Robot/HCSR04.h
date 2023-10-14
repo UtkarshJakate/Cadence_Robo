@@ -8,7 +8,7 @@
 
 #include "Arduino.h"
 
-#define HCSR04_INVALID_RESULT  -1;
+#define HCSR04_INVALID_RESULT  9999;
 #define HCSR04_NO_TRIGGER      -2;
 #define HCSR04_NO_ECHO         -3;
 

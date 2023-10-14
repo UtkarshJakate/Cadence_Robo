@@ -12,7 +12,7 @@
 Servo myservo;  // create servo object to control a servo
 
 void setup () {
-  // Serial.begin(600);
+  // Serial.begin(9600);
   HCSR04.begin(triggerPin, echoPins, echoCount);
   myservo.attach(SERVO_PIN);  // attaches the servo on pin 9 to the servo object
 
@@ -43,35 +43,37 @@ void loop () {
   // Serial.print("ultra:");
   // Serial.print(fn_time);
 
-  // Serial.print("Ultra1:");
+  // Serial.print("FRONT:");
   // Serial.print(distances[0]);
-  // Serial.print(",Ultra2:");
+  // Serial.print("                  ,BACK:");
   // Serial.print(distances[1]);
-  // Serial.print(",Ultra3:");
+  // Serial.print("                  ,RIGHT:");
   // Serial.print(distances[2]);
-  // Serial.print(",Ultra4:");
+  // Serial.print("                  ,LEFT:");
   // Serial.println(distances[3]);
   // delay(1000);
 
   if(distances[ultra_idx_b] < DEF_DET_RADIUS)
   {
+    // Serial.println(" BACK ");
+    
     update_const_rot_dir(TURN_RIGHT);
     hard_rotate(99 * read_const_rot_dir());
-    delay(100);
+    rotate_dir = 0;
+    delay(10);
   }
 
   else if(distances[ultra_idx_f] < DET_RADIUS){
-    //Bot detected
-    robo_stop();
     //attack 
-    robo_speed_update(CONST_FWD_SPEED, 0); 
+    robo_speed_update(CONST_FWD_SPEED, 0);
+    // Serial.println(" FRONT ");
+
   }
   
   // CHANGE ROTATION BASED ON SIDE SENSORS DETECTION OF ROBOT
-  else if( (distances[ultra_idx_l] < DET_RADIUS) || distances[ultra_idx_r] < DET_RADIUS ){
+  else if( (distances[ultra_idx_l] < DET_RADIUS_LR) || distances[ultra_idx_r] < DET_RADIUS_LR ){
     
     int lt, rt;
-    byte rotate_dir;
 
     lt = distances[ultra_idx_l];
     rt = distances[ultra_idx_r];
@@ -81,23 +83,40 @@ void loop () {
     else
       rotate_dir = 0;
 
-    //Change Rotation
+    // Serial.print(" ROTATE: ");
+    // Serial.println(rotate_dir);
     if (rotate_dir){
       update_const_rot_dir(TURN_LEFT); 
-      hard_rotate( (CONST_ROT_SPEED_SIDE_ULTRA)* read_const_rot_dir());
+      hard_rotate( (CONST_ROT_SPEED_FAST)* read_const_rot_dir());
+      delay(100);
     }
     else{
       update_const_rot_dir(TURN_RIGHT); 
-      hard_rotate( (CONST_ROT_SPEED_SIDE_ULTRA)* read_const_rot_dir());
+      hard_rotate( (CONST_ROT_SPEED_FAST)* read_const_rot_dir());
+      delay(100);
     }
   }
   
   else{   
     // SEARCH ROBOT
-    hard_rotate(CONST_ROT_SPEED * read_const_rot_dir());
+    // Serial.print(" SEARCH: ");
+    // Serial.println(rotate_dir);
+
+    // update_const_rot_dir(TURN_LEFT); 
+    // hard_rotate( (CONST_ROT_SPEED)* read_const_rot_dir());
+  
+    if (rotate_dir){
+      update_const_rot_dir(TURN_LEFT); 
+      hard_rotate( (CONST_ROT_SPEED)* read_const_rot_dir());
+    }
+    else{
+      update_const_rot_dir(TURN_RIGHT); 
+      hard_rotate( (CONST_ROT_SPEED)* read_const_rot_dir());
+    }
   }
 
-
+  // delay(1000);
+  // Serial.println("-------------\n");
   // SERVO WEAPON CODE 
   currentMillis = millis();
   if (currentMillis - previousMillis >= SERVO_DELAY) {
@@ -111,3 +130,10 @@ void loop () {
     myservo.write(servo_val);
   }
 }
+
+
+
+//         TEST CASE
+// void loop(){
+//  robo_speed_update(CONST_FWD_SPEED, 0); 
+// }

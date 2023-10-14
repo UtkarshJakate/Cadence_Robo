@@ -208,7 +208,7 @@ void HCSR04Sensor::measureDistanceCm(float temperature, double* results) {
 	// Calculate the distance in cm for each result.
 	for (uint8_t i = 0; i < this->echoCount; i++) {
 		double distanceCm = times[i] / 2.0 * speedOfSoundInCmPerMs;
-		if (distanceCm < 1 || distanceCm > 400) {
+		if (distanceCm < 1 || distanceCm > 400 ) {
 			results[i] = HCSR04_INVALID_RESULT;
 		} else {
 			results[i] = distanceCm;
