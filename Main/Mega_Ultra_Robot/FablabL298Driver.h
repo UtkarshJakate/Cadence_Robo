@@ -11,7 +11,6 @@
 class FablabL298Driver {
 
 private:
-
 	// This Is The Control, Enable Pins
 	uint8_t _ena_pin    = 0;
 	uint8_t _in1_pin    = 0;

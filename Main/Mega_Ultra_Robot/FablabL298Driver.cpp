@@ -114,13 +114,11 @@ void FablabL298Driver::stop() {
 
 // Command By Serial
 unsigned int FablabL298Driver::command(Stream &serial) {
-
 	// Data Buffer
 	unsigned int lastTriedValue = 0;
 
 	// Continous Loop
 	while(1) {
-
 		// Print A Message
 		serial.print("Please Enter Your PWM Value : ");
 
@@ -145,7 +143,5 @@ unsigned int FablabL298Driver::command(Stream &serial) {
 				goSpeed(lastTriedValue);
 			}
 		}
-
 	}
-
 }
